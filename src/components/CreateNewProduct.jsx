@@ -1,18 +1,37 @@
+import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import AddNewProduct from "../useQuery/addNewProduct";
 
+
 const CreateNewProduct = () => {
   const [image, setImage] = useState(null);
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
+ const zodSchema = z.object({
+   title: z.string(),
+   price: z
+     .number({
+       required_error: "Price is required",
+       invalid_type_error: "Price must be a number",
+     })
+     .nonnegative({ message: "Price cannot be negative" }),
+   description: z.string(),
+ });
  const onSubmit = async (data) => {
-   const result = await AddNewProduct(data);
-   console.log(result);
+   const formData = {
+     ...data,
+     price: Number(data.price),
+   };
+   const zodValidation = zodSchema.safeParse(formData);
+   if (!zodValidation.success) {
+     console.log("something went wrong", zodValidation.error);
+   } else {
+     const result = await AddNewProduct(zodValidation.data);
+     console.log(result);
+   }
  };
- 
- 
 
   const handleDragOver = (e) => {
     e.preventDefault();
