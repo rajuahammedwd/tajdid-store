@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import useAddNewProduct from "../useQuery/addNewProduct";
 import { Link } from "react-router-dom";
+import AddNewProduct from "../useQuery/addNewProduct";
 
 const CreateNewProduct = () => {
   const [image, setImage] = useState(null);
-  const {addNewProduct} = useAddNewProduct();
-  const { register, handleSubmit } = useForm();
-  const [data, setData] = useState("");
-  console.log(data)
+  const {register, handleSubmit} = useForm();
+ const onSubmit = async (data) => {
+   const result = await AddNewProduct(data);
+   console.log(result);
+ };
  
  
 
@@ -50,7 +51,7 @@ const CreateNewProduct = () => {
 
       {/* Form */}
       {/*  */}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="md:lg:flex items-center justify-between mb-10">
           <div className="mb-5">
             <h2 className="text-2xl font-bold">Create New Product</h2>
@@ -63,7 +64,7 @@ const CreateNewProduct = () => {
               </button>
             </Link>
             <button
-              onSubmit={handleSubmit((e,data) => setData(JSON.stringify(data)))}
+              type="submit"
               className="btn bg-blue-500 shadow-md px-4 py-2 rounded-md text-white"
             >
               Create
