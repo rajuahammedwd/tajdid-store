@@ -1,24 +1,17 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-// import useAddNewProduct from "../useQuery/addNewProduct";
+import useAddNewProduct from "../useQuery/addNewProduct";
 import { Link } from "react-router-dom";
 
 const CreateNewProduct = () => {
   const [image, setImage] = useState(null);
-  // const {addNewProduct} = useAddNewProduct();
-  const { register, handleSubmit,reset } = useForm();
-
-  // const handleSubmit = async (data) => {
-  //   try {
-  //     await addNewProduct.mutateAsync(data);
-  //     reset();
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //   }
-  // };
-
+  const {addNewProduct} = useAddNewProduct();
+  const { register, handleSubmit } = useForm();
+  const [data, setData] = useState("");
+  console.log(data)
+ 
+ 
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -54,31 +47,33 @@ const CreateNewProduct = () => {
   return (
     <div className="w-full px-10 my-5 bg-[#FCFCFD]">
       {/* Header */}
-      <div className="md:lg:flex items-center justify-between mb-10">
-        <div className="mb-5">
-          <h2 className="text-2xl font-bold">Create New Product</h2>
-          <p>Upload your product photo and details here.</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link to={"/"}>
-            <button className="btn border shadow-md px-4 py-2 rounded-md">
-              Cancel
-            </button>
-          </Link>
-          <button
-            className="btn bg-blue-500 shadow-md px-4 py-2 rounded-md text-white"
-          >
-            Create
-          </button>
-        </div>
-      </div>
+
       {/* Form */}
       {/*  */}
       <form>
+        <div className="md:lg:flex items-center justify-between mb-10">
+          <div className="mb-5">
+            <h2 className="text-2xl font-bold">Create New Product</h2>
+            <p>Upload your product photo and details here.</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link to={"/"}>
+              <button className="btn border shadow-md px-4 py-2 rounded-md">
+                Cancel
+              </button>
+            </Link>
+            <button
+              onSubmit={handleSubmit((e,data) => setData(JSON.stringify(data)))}
+              className="btn bg-blue-500 shadow-md px-4 py-2 rounded-md text-white"
+            >
+              Create
+            </button>
+          </div>
+        </div>
         <div className="grid grid-cols-3 py-3 border-b">
           <label className="col-span-1 text-xl">Title</label>
           <input
-            className="col-span-2 input p-3 border rounded-md"
+            className="col-span-2 input input-bordered p-3 border rounded-md"
             type="text"
             placeholder="Product name"
             {...register("title", { required: true, maxLength: 80 })}
@@ -87,7 +82,7 @@ const CreateNewProduct = () => {
         <div className="grid grid-cols-3 py-3 border-b">
           <label className="col-span-1 text-xl">Price</label>
           <input
-            className="col-span-2 input p-3 border rounded-md"
+            className="col-span-2 input-bordered p-3 border rounded-md"
             type="number"
             placeholder="Price"
             {...register("price", {
@@ -151,12 +146,13 @@ const CreateNewProduct = () => {
         <div className="grid grid-cols-3 py-3">
           <label className="text-xl">Description</label>
           <textarea
-            placeholder="description"
-            className="col-span-2 input p-3 border rounded-md"
+            placeholder="Description"
+            rows={6}
+            cols={40}
+            className="col-span-2 h-32 input p-3 input-bordered border rounded-md"
             {...register("description", { required: true })}
           />
         </div>
-        <input type="submit" value="submit" />
       </form>
     </div>
   );
