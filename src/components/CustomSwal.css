@@ -1,0 +1,33 @@
+.swal2-popup {
+  text-align: left;
+  justify-content: space-between;
+  width: 400px;
+}
+.swal2-popup .swal2-styled {
+  margin: 0 5px;
+  padding: 10px 20px;
+  border-radius: 5px;
+
+  font-weight: bold;
+}
+.swal2-popup .swal2-styled.swal2-confirm {
+  order: 1;
+  background-color: #e50000;
+  color: #ffffff;
+  border: none;
+}
+.swal2-popup .swal2-styled.swal2-cancel {
+  order: 0;
+  background-color: #ffffff;
+  border: 2px solid #d0d5dd;
+  color: #000000;
+}
+.swal2-popup .swal2-title {
+  text-align: left;
+  font-size: 20px;
+}
+.swal2-container .swal2-html-container {
+  text-align: left;
+  margin: 0 1.3rem 1rem;
+  font-size: 16px;
+}
